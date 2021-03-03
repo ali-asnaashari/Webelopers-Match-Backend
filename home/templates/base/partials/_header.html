@@ -1,0 +1,16 @@
+<header>
+    <nav class="nav">
+        <ul class="list nav__list">
+            <li id=”homepage” class="nav__item"><a href="{% url 'home' %}">Main Page</a></li>
+            <li id=”register” class="nav__item"><a href="{% url 'accounts:signup' %}">Register</a></li>
+
+            {% if user.is_authenticated %}
+                <li id=”logout” class="nav__item"><a href="{% url 'accounts:logout' %}">Logout</a></li>
+            {% else %}
+                <li id=”login” class="nav__item"><a href="{% url 'accounts:login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <p style="text-align: center;font-size: 3rem">سلام. به سامانه‌ی انتخاب واحد مجازی خوش آمدید.</p>
+</header>
