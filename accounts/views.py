@@ -121,3 +121,28 @@ def delete_product(request, id):
     product = Product.objects.get(id=id)
     product.delete()
     return HttpResponse('ok')
+
+
+class EntireProducts(ListView):
+    template_name = 'accounts/enitre_products.html'
+    context_object_name = 'products'
+    model = Product
+
+    def get_queryset(self):
+        def space_to_underline(string):
+            return string.replace(' ', '_')
+
+        products = Product.objects.filter(user=self.request.user)
+        result = [(product.name, product.price, product.quantity,
+                   space_to_underline(product.name) + "_" + product.user.username,
+                   product.id,
+                   product.user.first_name,
+                   product.user.last_name) for product in products]
+        # 0 : name
+        # 1 : price
+        # 2: quentity
+        # 3: class name
+        # 4: id
+        # 5: first name
+        # 6: last name
+        return result
