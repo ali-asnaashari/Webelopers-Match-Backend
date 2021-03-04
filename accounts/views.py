@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -41,10 +42,16 @@ def panel(request):
     #     seller_status = True
     #     request.user.groups.create(name="seller")
     #
-    if not request.user.groups.get(name='seller'):
-        request.user.groups.create(name="seller")
-        seller_status= True
 
+    try:
+        my_group = Group.objects.get(name='seller')
+
+    except:
+        my_group = Group.objects.create(name='seller')
+        my_group.save()
+        seller_status = True
+
+    my_group.user_set.add(request.user)
 
     if request.method == 'POST':
         return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': seller_status})
