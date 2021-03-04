@@ -17,3 +17,14 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2',)
+
+
+class CreateItemForm(forms.Form):
+    name = forms.CharField(required=True, widget=forms.TextInput(attrs={'name': 'name'}))
+    quantity = forms.CharField(required=True, widget=forms.TextInput(attrs={'name': 'quantity'}))
+    price = forms.CharField(required=True, min_length=10, max_length=250,
+                            widget=forms.Textarea(attrs={'name': 'price'}))
+
+    class Meta:
+        # model = User
+        fields = ('name', 'quantity', 'price')

@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    panel
+{% endblock %}
+
+
+{% block content %}
+    <div>
+        <a id="make_new_product" href="{% url 'accounts:create_item' %}"> create item</a>
+    </div>
+
+{% endblock %}

@@ -6,7 +6,7 @@
 
     {% if user.is_authenticated %}
         <a class="nav__item" href="{% url 'accounts:logout' %}" id="logout">Logout</a>
-        <a class="nav__item" href="{% url 'accounts:panel' %}" id="panel">Logout</a>
+        <a class="nav__item" href="{% url 'accounts:panel' %}" id="panel">panel</a>
     {% else %}
         <a class="nav__item" href="{% url 'accounts:login' %}" id="login">Login</a>
     {% endif %}

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from accounts.forms import SignUpForm
+from accounts.forms import SignUpForm, CreateItemForm
 
 
 def signup(request):
@@ -32,5 +32,21 @@ def logout_user(request):
 
 
 def panel(request):
-    return HttpResponse("panel")
+    return render(request, 'accounts/panel.html', {})
 
+
+def create_item(request):
+    if request.method == 'POST':
+        form = CreateItemForm(request.POST)
+        if form.is_valid():
+            # form.save()
+
+            name = form.cleaned_data.get('name')
+            quantity = form.cleaned_data.get('quantity')
+            price = form.cleaned_data.get('price')
+            # should fix
+            return redirect('contact_us_done')
+
+    else:
+        form = CreateItemForm()
+    return render(request, 'accounts/create-item.html', {'form': form})
