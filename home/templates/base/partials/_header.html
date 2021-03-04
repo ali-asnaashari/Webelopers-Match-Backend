@@ -1,18 +1,14 @@
-<header>
-    <div id="navbar">
+<div id="navbar" class="nav">
+    <ul class="list nav__list">
+        <a class="nav__item" href="{% url 'home' %}" id=”homepage”>home page</a>
 
+        <a class="nav__item" href="{% url 'accounts:signup' %}" id=”register”>Register</a>
 
-        <nav class="nav">
-            <ul class="list nav__list">
-                <li class="nav__item"><a href="{% url 'home' %}" id=”homepage”>home page</a></li>
-                <li class="nav__item"><a href="{% url 'accounts:signup' %}" id=”register”>Register</a></li>
+        {% if user.is_authenticated %}
+            <a class="nav__item" href="{% url 'accounts:logout' %}" id=”logout”>Logout</a>
+        {% else %}
+            <a class="nav__item" href="{% url 'accounts:login' %}" id=”login”>Login</a>
+        {% endif %}
+    </ul>
+</div>
 
-                {% if user.is_authenticated %}
-                    <li class="nav__item"><a href="{% url 'accounts:logout' %}" id=”logout”>Logout</a></li>
-                {% else %}
-                    <li class="nav__item"><a href="{% url 'accounts:login' %}" id=”login”>Login</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
-</header>
