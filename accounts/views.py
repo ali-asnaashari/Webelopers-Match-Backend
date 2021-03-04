@@ -128,7 +128,11 @@ class EntireProducts(ListView):
     context_object_name = 'products'
     model = Product
 
-    def get_queryset(self):
+    def post(self, request):
+        title = request.POST.get('title')
+        return HttpResponse('post with: ' + title)
+
+    def get_queryset(self, ):
         def space_to_underline(string):
             return string.replace(' ', '_')
 

@@ -6,33 +6,41 @@
 {% endblock %}
 
 {% block content %}
+
+    <form method="post" id="search_products">
+        {% csrf_token %}
+        <input type="text" name="title">
+        <input type="submit" name="submit">
+    </form>
+
+
     <div id="all_products">
         {% for product in products %}
-{#            class name#}
-            <a href="{% url 'accounts:edit' product.4 %}" id="edit_{{product.3 }}">edit</a>
+            {#            class name#}
+            <a href="{% url 'accounts:edit' product.4 %}" id="edit_{{ product.3 }}">edit</a>
             <a href="{% url 'accounts:delete_product' product.4 %}" id="delete_{{ product.3 }}">delete</a>
 
             <div class="{{ product.3 }}">
-{#            name#}
+                {#            name#}
                 <h4>{{ product.0 }}</h4>
                 <div>
-{#                    price#}
+                    {#                    price#}
                     {{ product.1 }}
                 </div>
                 <div>
-{#                    quentity#}
+                    {#                    quentity#}
                     {{ product.2 }}
                 </div>
-{#                first_name#}
-            <div>
+                {#                first_name#}
+                <div>
 
-            </div>
+                </div>
                 {{ product.5 }}
-{#                last name#}
-            <div>
-                {{ product.6 }}
+                {#                last name#}
+                <div>
+                    {{ product.6 }}
 
-            </div>
+                </div>
             </div>
         {% endfor %}
     </div>
