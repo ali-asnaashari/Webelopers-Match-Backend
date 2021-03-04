@@ -1,5 +1,8 @@
+import sys
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
+from django.db.models import F, Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -130,11 +133,45 @@ class EntireProducts(ListView):
 
     def post(self, request):
         title = request.POST.get('title')
+        min_price = request.POST.get('min_price')
+        max_price = request.POST.get('max_price')
+
+        products = []
+        print("min price= ", min_price)
+        print("max price= ", max_price)
+        if min_price != '' and max_price != '':
+
+
+            products = Product.objects.filter(
+                Q(name__contains=title) | Q(price__gte=int(min_price)) & Q(price__lte=int(max_price)))
+        elif max_price == '' and min_price == '':
+            products = Product.objects.filter(
+                Q(name__contains=title))
+        elif min_price == '':
+
+            products = Product.objects.filter(
+                Q(name__contains=title) | Q(price__lte=int(max_price)))
+        elif max_price == '':
+            products = Product.objects.filter(
+                Q(name__contains=title) | Q(price__gte=int(min_price)))
+
+        # if max_price != '' and min_price != '':
+        #     products = Product.objects.filter(
+        #         Q(name__contains=title) | Q(price__gte=int(min_price)) | Q(price__lte=int(max_price)))
+        # else:
+        #
+        #     if min_price == '':
+        #         products = Product.objects.filter(
+        #             Q(name__contains=title) | Q(price__lte=int(max_price)))
+        #
+        #     if max_price == '':
+        #         products = Product.objects.filter(
+        #             Q(name__contains=title) | Q(price__gte=int(min_price)))
+        #
 
         def space_to_underline(string):
             return string.replace(' ', '_')
 
-        products = Product.objects.filter(name__contains=title)
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
                    product.id,

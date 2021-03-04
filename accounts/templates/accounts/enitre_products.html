@@ -10,7 +10,9 @@
     <form method="post" id="search_products">
         {% csrf_token %}
         <input type="text" name="title">
-        <input type="submit" name="submit">
+        <input type="number" name="min_price">
+        <input type="number" name="max_price">
+        <button type="submit" name="submit">submit</button>
     </form>
 
 
