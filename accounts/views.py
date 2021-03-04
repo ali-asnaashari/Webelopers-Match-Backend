@@ -81,3 +81,7 @@ class AllProducts(ListView):
         # 2: quentity
         # 3: class name
         return result
+
+
+def edit(request, id):
+    return HttpResponse('edit ' + id)

@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    edit product
+{% endblock %}
+
+
+{% block content %}
+    <form method="post" id="edit_product">
+        {% csrf_token %}
+        {% for field in form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {#            <input type="{{ field.type }}" name="{{ field.name }}" id="{{ field.name }}">#}
+
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        <button type="submit">edit product</button>
+
+
+        {% if form.errors %}
+            <div id="errors" style="color: #03a9f4">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}

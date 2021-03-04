@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView
 from django.urls import path
 
-from accounts.views import signup, logout_user, panel, create_item, AllProducts
+from accounts.views import signup, logout_user, panel, create_item, AllProducts, edit
 
 app_name = 'accounts'
 
@@ -12,5 +12,6 @@ urlpatterns = [
     path('panel/', panel, name='panel'),
     path('create_item/', create_item, name='create_item'),
     path('all_products/', AllProducts.as_view(), name='all_products'),
+    # path('edit/<id:int>/', edit, name='edit')
 
 ]
