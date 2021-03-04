@@ -135,30 +135,25 @@ class EntireProducts(ListView):
         title = request.POST.get('title')
         min_price = request.POST.get('min_price')
         max_price = request.POST.get('max_price')
-        #restrict to title
 
         products = Product.objects.filter(name__contains=title)
+        if max_price != '' or min_price != '':
+            print("min price= ", min_price)
+            print("max price= ", max_price)
+            if min_price != '' and max_price != '':
 
+                products = Product.objects.filter(
+                    Q(price__gte=int(min_price)) & Q(price__lte=int(max_price)))
 
-        # print("min price= ", min_price)
-        # print("max price= ", max_price)
-        # if min_price != '' and max_price != '':
-        #
-        #     products = Product.objects.filter(
-        #         Q(name__contains=title) | Q(price__gte=int(min_price)) & Q(price__lte=int(max_price)))
-        # elif max_price == '' and min_price == '':
-        #     products = Product.objects.filter(
-        #         Q(name__contains=title))
-        # elif min_price == '':
-        #
-        #     products = Product.objects.filter(
-        #         Q(name__contains=title) | Q(price__lte=int(max_price)))
-        # elif max_price == '':
-        #     products = Product.objects.filter(
-        #         Q(name__contains=title) | Q(price__gte=int(min_price)))
+            elif min_price == '':
+                products = Product.objects.filter(
+                    Q(price__lte=int(max_price)))
+            elif max_price == '':
+                products = Product.objects.filter(
+                    Q(price__gte=int(min_price)))
 
-        def space_to_underline(string):
-            return string.replace(' ', '_')
+            def space_to_underline(string):
+                return string.replace(' ', '_')
 
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
