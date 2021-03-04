@@ -10,7 +10,7 @@ urlpatterns = [
     path('signup/', signup, name='signup'),
     path('logout/', logout_user, name='logout'),
     path('panel/', panel, name='panel'),
-    path('create_item/', create_item, name='create_item')
+    path('create_item/', create_item, name='create_item'),
 
 
 ]

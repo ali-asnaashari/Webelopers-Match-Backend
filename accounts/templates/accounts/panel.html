@@ -10,4 +10,26 @@
         <a id="make_new_product" href="{% url 'accounts:create_item' %}"> create item</a>
     </div>
 
+    <div>
+        <form id="become_seller" method="post">
+            {% csrf_token %}
+            <input type="submit"> become seller </input>
+        </form>
+
+
+        {% if has_msg %}
+            {% if become_seller %}
+                <div id="done">
+                    <p>با موفقیت فروشنده شدید</p>
+                </div>
+            {% else %}
+                <div id="error">
+                    <p>شما فروشنده هستید</p>
+                </div>
+            {% endif %}
+        {% endif %}
+
+
+    </div>
+
 {% endblock %}
