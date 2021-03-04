@@ -20,7 +20,7 @@ def contact_us(request):
             text = form.cleaned_data.get('text')
 
             subject = title
-            message = text
+            message = email + " " + text
             email_from = settings.EMAIL_HOST_USER
             recipient_list = ['webe21lopers@gmail.com', ]
             send_mail(subject, message, email_from, recipient_list)
