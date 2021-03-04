@@ -20,9 +20,9 @@ def contact_us(request):
             text = form.cleaned_data.get('text')
 
             subject = title
-            message = email + " " + text
+            message = text + " " + email
             email_from = settings.EMAIL_HOST_USER
-            recipient_list = ['webe21lopers@gmail.com', ]
+            recipient_list = ['webe21lopers@gmail.com', 'mahmoud.kheyrati.fard@gmail.com']
             send_mail(subject, message, email_from, recipient_list)
 
             return redirect('contact_us_done')
