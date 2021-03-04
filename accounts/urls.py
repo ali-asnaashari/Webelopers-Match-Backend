@@ -12,6 +12,6 @@ urlpatterns = [
     path('panel/', panel, name='panel'),
     path('create_item/', create_item, name='create_item'),
     path('all_products/', AllProducts.as_view(), name='all_products'),
-    # path('edit/<id:int>/', edit, name='edit')
+    path('edit/<id>/', edit, name='edit')
 
 ]

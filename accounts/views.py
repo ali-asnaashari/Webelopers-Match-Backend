@@ -35,11 +35,17 @@ def logout_user(request):
 
 def panel(request):
     seller_status = False
-    if request.user.groups.count() == 1:
-        pass
-    else:
-        seller_status = True
+    # if request.user.groups.count() == 1:
+    #     pass
+    # else:
+    #     seller_status = True
+    #     request.user.groups.create(name="seller")
+    #
+    if not request.user.groups.get(name='seller'):
         request.user.groups.create(name="seller")
+        seller_status= True
+
+
     if request.method == 'POST':
         return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': seller_status})
 
@@ -75,13 +81,17 @@ class AllProducts(ListView):
 
         products = Product.objects.filter(user=self.request.user)
         result = [(product.name, product.price, product.quantity,
-                   space_to_underline(product.name) + "_" + product.user.username) for product in products]
+                   space_to_underline(product.name) + "_" + product.user.username,
+                   product.id) for product in products]
         # 0 : name
         # 1 : price
         # 2: quentity
         # 3: class name
+        # 4: id
         return result
 
 
 def edit(request, id):
-    return HttpResponse('edit ' + id)
+    form = CreateItemForm()
+    form.fields['name'].text = 'name'
+    return render(request, 'accounts/edit_product.html', {'form': form})
