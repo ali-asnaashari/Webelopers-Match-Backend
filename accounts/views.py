@@ -2,8 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.generic import ListView
 
 from accounts.forms import SignUpForm, CreateItemForm
+from accounts.models import Product
 
 
 def signup(request):
@@ -39,7 +41,6 @@ def panel(request):
         seller_status = True
         request.user.groups.create(name="seller")
     if request.method == 'POST':
-
         return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': seller_status})
 
     return render(request, 'accounts/panel.html', {'is_seller': not seller_status})
@@ -60,3 +61,22 @@ def create_item(request):
     else:
         form = CreateItemForm()
     return render(request, 'accounts/create-item.html', {'form': form})
+
+
+class AllProducts(ListView):
+    template_name = 'accounts/all_products.html'
+    context_object_name = 'products'
+    model = Product
+
+    def get_queryset(self):
+        def space_to_underline(string):
+            return string.replace(' ', '_')
+
+        products = Product.objects.filter(user=self.request.user)
+        result = [(product.name, product.price, product.quantity,
+                   space_to_underline(product.name) + "_" + product.user.username) for product in products]
+        # 0 : name
+        # 1 : price
+        # 2: quentity
+        # 3: class name
+        return result

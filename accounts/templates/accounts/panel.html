@@ -10,6 +10,10 @@
         <div>
             <a id="make_new_product" href="{% url 'accounts:create_item' %}"> create item</a>
         </div>
+
+        <div>
+            <a href="{% url 'accounts:all_products' %}" id="my_products">go to your products </a>
+        </div>
     {% endif %}
 
     <div>
