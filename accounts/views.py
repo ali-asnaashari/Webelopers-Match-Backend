@@ -130,13 +130,30 @@ class EntireProducts(ListView):
 
     def post(self, request):
         title = request.POST.get('title')
-        return HttpResponse('post with: ' + title)
+
+        def space_to_underline(string):
+            return string.replace(' ', '_')
+
+        products = Product.objects.filter(name__contains=title)
+        result = [(product.name, product.price, product.quantity,
+                   space_to_underline(product.name) + "_" + product.user.username,
+                   product.id,
+                   product.user.first_name,
+                   product.user.last_name) for product in products]
+        # 0 : name
+        # 1 : price
+        # 2: quentity
+        # 3: class name
+        # 4: id
+        # 5: first name
+        # 6: last name
+        return render(request, 'accounts/enitre_products.html', {'products': result})
 
     def get_queryset(self, ):
         def space_to_underline(string):
             return string.replace(' ', '_')
 
-        products = Product.objects.filter(user=self.request.user)
+        products = Product.objects.all()
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
                    product.id,
