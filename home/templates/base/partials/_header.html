@@ -4,17 +4,15 @@
 
         <nav class="nav">
             <ul class="list nav__list">
-                <li id=”homepage” class="nav__item"><a href="{% url 'home' %}">Main Page</a></li>
-                <li id=”register” class="nav__item"><a href="{% url 'accounts:signup' %}">Register</a></li>
+                <li class="nav__item"><a href="{% url 'home' %}" id=”homepage”>home page</a></li>
+                <li class="nav__item"><a href="{% url 'accounts:signup' %}" id=”register”>Register</a></li>
 
                 {% if user.is_authenticated %}
-                    <li id=”logout” class="nav__item"><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                    <li class="nav__item"><a href="{% url 'accounts:logout' %}" id=”logout”>Logout</a></li>
                 {% else %}
-                    <li id=”login” class="nav__item"><a href="{% url 'accounts:login' %}">Login</a></li>
+                    <li class="nav__item"><a href="{% url 'accounts:login' %}" id=”login”>Login</a></li>
                 {% endif %}
             </ul>
         </nav>
     </div>
-
-    <p style="text-align: center;font-size: 3rem">سلام. به سامانه‌ی انتخاب واحد مجازی خوش آمدید.</p>
 </header>
