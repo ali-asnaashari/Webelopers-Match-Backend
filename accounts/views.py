@@ -43,20 +43,20 @@ def panel(request):
     #     request.user.groups.create(name="seller")
     #
 
-    try:
-        my_group = Group.objects.get(name='seller')
-    except:
-        my_group = Group.objects.create(name='seller')
-        my_group.save()
-
-    if request.user.groups.count() == 0:
-        my_group.user_set.add(request.user)
-        seller_status = True
-
     if request.method == 'POST':
+        try:
+            my_group = Group.objects.get(name='seller')
+        except:
+            my_group = Group.objects.create(name='seller')
+            my_group.save()
+
+        if request.user.groups.count() == 0:
+            my_group.user_set.add(request.user)
+            seller_status = True
         return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': seller_status})
 
-    return render(request, 'accounts/panel.html', {'is_seller': not seller_status})
+    is_seller = request.user.groups.count() > 0
+    return render(request, 'accounts/panel.html', {'is_seller': is_seller})
 
 
 def create_item(request):
