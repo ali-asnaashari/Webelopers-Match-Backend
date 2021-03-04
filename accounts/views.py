@@ -30,3 +30,7 @@ def logout_user(request):
     logout(request)
     return redirect(reverse('home'))
 
+
+def panel(request):
+    return HttpResponse("panel")
+
