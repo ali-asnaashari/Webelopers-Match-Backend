@@ -9,7 +9,7 @@
     <div id="all_products">
         {% for product in products %}
 {#            class name#}
-            <a href="{% url 'accounts:edit' product.4 %}" id="id_{{product.3 }}">edit</a>
+            <a href="{% url 'accounts:edit' product.4 %}" id="edit_{{product.3 }}">edit</a>
 
             <div class="{{ product.3 }}">
 {#            name#}
