@@ -46,7 +46,8 @@ def panel(request):
         if request.user.groups.count() == 0:
             my_group.user_set.add(request.user)
             become_seller = True
-        return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': become_seller})
+        return render(request, 'accounts/panel.html',
+                      {'has_msg': True, 'become_seller': become_seller, 'is_seller': True})
 
     is_seller = request.user.groups.count() > 0
     return render(request, 'accounts/panel.html', {'has_msg': False, 'is_seller': is_seller})
