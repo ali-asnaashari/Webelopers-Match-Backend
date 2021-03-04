@@ -35,15 +35,8 @@ def logout_user(request):
 
 
 def panel(request):
-    seller_status = False
-    # if request.user.groups.count() == 1:
-    #     pass
-    # else:
-    #     seller_status = True
-    #     request.user.groups.create(name="seller")
-    #
-
     if request.method == 'POST':
+        become_seller = False
         try:
             my_group = Group.objects.get(name='seller')
         except:
@@ -52,11 +45,11 @@ def panel(request):
 
         if request.user.groups.count() == 0:
             my_group.user_set.add(request.user)
-            seller_status = True
-        return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': seller_status})
+            become_seller = True
+        return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': become_seller})
 
     is_seller = request.user.groups.count() > 0
-    return render(request, 'accounts/panel.html', {'is_seller': is_seller})
+    return render(request, 'accounts/panel.html', {'has_msg': False, 'is_seller': is_seller})
 
 
 def create_item(request):
