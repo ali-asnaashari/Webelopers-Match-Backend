@@ -45,13 +45,13 @@ def panel(request):
 
     try:
         my_group = Group.objects.get(name='seller')
-
     except:
         my_group = Group.objects.create(name='seller')
         my_group.save()
-        seller_status = True
 
-    my_group.user_set.add(request.user)
+    if request.user.groups.count() == 0:
+        my_group.user_set.add(request.user)
+        seller_status = True
 
     if request.method == 'POST':
         return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': seller_status})
