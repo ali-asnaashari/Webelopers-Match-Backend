@@ -1,5 +1,5 @@
 <div id="navbar" class="nav">
-    <ul class="list nav__list">
+{#    <ul class="list nav__list">#}
         <a class="nav__item" href="{% url 'home' %}" id=”homepage”>home page</a>
 
         <a class="nav__item" href="{% url 'accounts:signup' %}" id=”register”>Register</a>
@@ -9,6 +9,8 @@
         {% else %}
             <a class="nav__item" href="{% url 'accounts:login' %}" id=”login”>Login</a>
         {% endif %}
-    </ul>
+{#    </ul>#}
 </div>
+
+
 
