@@ -6,9 +6,11 @@
 
 
 {% block content %}
-    <div>
-        <a id="make_new_product" href="{% url 'accounts:create_item' %}"> create item</a>
-    </div>
+    {% if is_seller %}
+        <div>
+            <a id="make_new_product" href="{% url 'accounts:create_item' %}"> create item</a>
+        </div>
+    {% endif %}
 
     <div>
         <form id="become_seller" method="post">

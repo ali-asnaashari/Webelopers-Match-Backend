@@ -32,17 +32,17 @@ def logout_user(request):
 
 
 def panel(request):
+    seller_status = False
+    if request.user.groups.count() == 1:
+        pass
+    else:
+        seller_status = True
+        request.user.groups.create(name="seller")
     if request.method == 'POST':
-        seller_status = False
-        if request.user.groups.count() == 1:
-            pass
-        else:
-            seller_status = True
-            request.user.groups.create(name="seller")
 
         return render(request, 'accounts/panel.html', {'has_msg': True, 'become_seller': seller_status})
 
-    return render(request, 'accounts/panel.html', {})
+    return render(request, 'accounts/panel.html', {'is_seller': not seller_status})
 
 
 def create_item(request):
