@@ -135,39 +135,27 @@ class EntireProducts(ListView):
         title = request.POST.get('title')
         min_price = request.POST.get('min_price')
         max_price = request.POST.get('max_price')
+        #restrict to title
 
-        products = []
-        print("min price= ", min_price)
-        print("max price= ", max_price)
-        if min_price != '' and max_price != '':
+        products = Product.objects.filter(name__contains=title)
 
 
-            products = Product.objects.filter(
-                Q(name__contains=title) | Q(price__gte=int(min_price)) & Q(price__lte=int(max_price)))
-        elif max_price == '' and min_price == '':
-            products = Product.objects.filter(
-                Q(name__contains=title))
-        elif min_price == '':
-
-            products = Product.objects.filter(
-                Q(name__contains=title) | Q(price__lte=int(max_price)))
-        elif max_price == '':
-            products = Product.objects.filter(
-                Q(name__contains=title) | Q(price__gte=int(min_price)))
-
-        # if max_price != '' and min_price != '':
+        # print("min price= ", min_price)
+        # print("max price= ", max_price)
+        # if min_price != '' and max_price != '':
+        #
         #     products = Product.objects.filter(
-        #         Q(name__contains=title) | Q(price__gte=int(min_price)) | Q(price__lte=int(max_price)))
-        # else:
+        #         Q(name__contains=title) | Q(price__gte=int(min_price)) & Q(price__lte=int(max_price)))
+        # elif max_price == '' and min_price == '':
+        #     products = Product.objects.filter(
+        #         Q(name__contains=title))
+        # elif min_price == '':
         #
-        #     if min_price == '':
-        #         products = Product.objects.filter(
-        #             Q(name__contains=title) | Q(price__lte=int(max_price)))
-        #
-        #     if max_price == '':
-        #         products = Product.objects.filter(
-        #             Q(name__contains=title) | Q(price__gte=int(min_price)))
-        #
+        #     products = Product.objects.filter(
+        #         Q(name__contains=title) | Q(price__lte=int(max_price)))
+        # elif max_price == '':
+        #     products = Product.objects.filter(
+        #         Q(name__contains=title) | Q(price__gte=int(min_price)))
 
         def space_to_underline(string):
             return string.replace(' ', '_')
