@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 
 from home.forms import ContactUsForm
@@ -16,6 +18,12 @@ def contact_us(request):
             title = form.cleaned_data.get('title')
             email = form.cleaned_data.get('email')
             text = form.cleaned_data.get('text')
+
+            subject = title
+            message = text
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = ['webe21lopers@gmail.com', ]
+            send_mail(subject, message, email_from, recipient_list)
 
             return redirect('contact_us_done')
 
