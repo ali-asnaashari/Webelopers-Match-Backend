@@ -53,9 +53,10 @@ def create_item(request):
             # form.save()
 
             name = form.cleaned_data.get('name')
-            quantity = form.cleaned_data.get('quantity')
-            price = form.cleaned_data.get('price')
+            quantity = int(form.cleaned_data.get('quantity'))
+            price = int(form.cleaned_data.get('price'))
             # should fix
+            Product.objects.create(user=request.user, name=name, quantity=quantity, price=price)
             return redirect('contact_us_done')
 
     else:

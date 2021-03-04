@@ -22,7 +22,7 @@ class SignUpForm(UserCreationForm):
 class CreateItemForm(forms.Form):
     name = forms.CharField(required=True, widget=forms.TextInput(attrs={'name': 'name'}))
     quantity = forms.CharField(required=True, widget=forms.TextInput(attrs={'name': 'quantity'}))
-    price = forms.CharField(required=True, min_length=10, max_length=250,
+    price = forms.CharField(required=True,
                             widget=forms.TextInput(attrs={'name': 'price'}))
 
     class Meta:
