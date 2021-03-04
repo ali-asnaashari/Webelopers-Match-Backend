@@ -8,12 +8,13 @@
 {% block content %}
 
     <h2>Sign up</h2>
-    <form method="post">
+    <form method="post" id="register_form">
         {% csrf_token %}
         {% for field in form %}
             <p>
                 {{ field.label_tag }}<br>
                 {{ field }}
+{#            <input type="{{ field.type }}" name="{{ field.name }}" id="{{ field.name }}">#}
 
                 {% for error in field.errors %}
                     <p style="color: red">{{ error }}</p>

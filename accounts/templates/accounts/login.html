@@ -14,57 +14,27 @@
 
 
 {% block content %}
-    <div>
         {% if form.errors %}
-            username or password wrong. try again
-        {% endif %}
+    <div id="errors">
+        <p>username or password wrong. try again</p>
     </div>
-
-
-    {#{% if next %}#}
-    {#    {% if user.is_authenticated %}#}
-    {#        <p>Your account doesn't have access to this page. To proceed,#}
-    {#            please login with an account that has access.</p>#}
-    {#    {% else %}#}
-    {#        <p>Please login to see this page.</p>#}
-    {#    {% endif %}#}
-    {#{% endif %}#}
-
-{#    <form method="post" action="{% url 'accounts:login' %}">#}
-
-    {#        <table>#}
-    {#            <tr>#}
-    {#                <td>{{ form.username.label_tag }}</td>#}
-    {#                <td> {{ form.username }}</td>#}
-    {#                <td><input type="text" name="username"></td>#}
-    {#            </tr>#}
-    {#            <tr>#}
-    {#                <td>{{ form.password.label_tag }}</td>#}
-    {#                <td>{{ form.password }}</td>#}
-    {#                <td><input type="password" name="password"></td>#}
-    {#            </tr>#}
-    {#        </table>#}
-    {##}
-    {#        <input type="submit" value="login">#}
-    {#        <input type="hidden" name="next" value="{{ next }}">#}
-    {#    </form>#}
-
+{% endif %}
     <h2>Login Page</h2>
     <form id="login_form" method="post" action="{% url 'accounts:login' %}">
-    {% csrf_token %}
-    <div class="Box">
-        <div class="inputBox">
-            <input type="text" name="username" required="">
-            <label>Username</label>
-        </div>
-        <div class="inputBox">
-            <input type="password" name="password" required="">
-            <label>Password</label>
-        </div>
-        <input type="hidden" name="next" value="{{ next }}">
+        {% csrf_token %}
+        <div class="Box">
+            <div class="inputBox">
+                <input type="text" name="username" required="">
+                <label>Username</label>
+            </div>
+            <div class="inputBox">
+                <input type="password" name="password" required="">
+                <label>Password</label>
+            </div>
+            <input type="hidden" name="next" value="{{ next }}">
 
-        <input type="submit" name="" value="submit">
-        </form>
+            <input type="submit" name="" value="submit">
+    </form>
 
     </div>
 
