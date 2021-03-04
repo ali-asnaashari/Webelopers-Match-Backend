@@ -93,14 +93,12 @@ class AllProducts(ListView):
 
 
 def edit(request, id):
-
     product = Product.objects.get(id=id)
     name = product.name
     price = product.price
     quantity = product.quantity
 
-
-    if request.method =='POST':
+    if request.method == 'POST':
         form = CreateItemForm(request.POST)
         if form.is_valid():
             # form.save()
@@ -114,6 +112,12 @@ def edit(request, id):
             return redirect('accounts:all_products')
 
     form = CreateItemForm()
-    form.set_initial(name_text=name, price_text=price, quantity_text= quantity)
+    form.set_initial(name_text=name, price_text=price, quantity_text=quantity)
     # form.fields['name'].initil = 'name'
     return render(request, 'accounts/edit_product.html', {'form': form})
+
+
+def delete_product(request, id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    return HttpResponse('ok')
