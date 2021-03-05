@@ -102,7 +102,7 @@ def get_link(obj):
     if obj:
         return obj.url
 
-    return 'https://google.com'
+    return 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/330px-Image_created_with_a_mobile_phone.png'
 
 class AllProducts(ListView):
     template_name = 'accounts/all_products.html'
