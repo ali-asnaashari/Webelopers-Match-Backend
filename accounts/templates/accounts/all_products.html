@@ -32,10 +32,10 @@
                 </div>
 
                 {#            image#}
-                <div>
 
-                    <img src="{{ product.6 }}" alt="image" id="profile_image_{{ product.3 }}">
-                </div>
+
+                <img src="{{ product.6 }}" alt="image" id="profile_image_{{ product.3 }}">
+
 
                 <form method="post" id="rate_{{ product.3 }}" action="{% url 'accounts:rate' product.4 2 %}">
                     {% csrf_token %}
