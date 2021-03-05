@@ -24,6 +24,7 @@ class CreateItemForm(forms.Form):
     quantity = forms.CharField(required=True, widget=forms.TextInput(attrs={'name': 'quantity'}))
     price = forms.CharField(required=True,
                             widget=forms.TextInput(attrs={'name': 'price'}))
+    tag = forms.CharField(required=False, widget=forms.TextInput(attrs={'name': 'tag'}))
 
     def set_initial(self, name_text='', price_text=0, quantity_text=0):
         # self.name.initial = name_text
@@ -33,4 +34,4 @@ class CreateItemForm(forms.Form):
 
     class Meta:
         # model = User
-        fields = ('name', 'quantity', 'price')
+        fields = ('name', 'quantity', 'price', 'tag')

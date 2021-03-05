@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.views.generic import ListView
 
 from accounts.forms import SignUpForm, CreateItemForm
-from accounts.models import Product
+from accounts.models import Product, Tag
 
 
 def signup(request):
@@ -65,8 +65,26 @@ def create_item(request):
             name = form.cleaned_data.get('name')
             quantity = int(form.cleaned_data.get('quantity'))
             price = int(form.cleaned_data.get('price'))
+            tags = form.cleaned_data.get('tag')
+
+            tag_names = tags.split(',')
+            # Product.objects.create(user=request.user, name=name, quantity=quantity, price=price)
+            product = Product(user=request.user, name=name, quantity=quantity, price=price)
+            product.save()
+            for tag in tag_names:
+                # tag_count = Tag.objects.filter(name__exact=name).count()
+
+                Tag.objects.get_or_create(name=tag)
+                my_tag = Tag.objects.get(name=tag)
+                print("TAAAG")
+                print(my_tag)
+                my_tag.save()
+                product.tag.add(my_tag)
+
+            product.save()
+
             # should fix
-            Product.objects.create(user=request.user, name=name, quantity=quantity, price=price)
+
             return redirect('contact_us_done')
 
     else:
