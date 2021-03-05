@@ -318,6 +318,19 @@ def order(request):
 
 
 def cart(request, id='-1'):
+
+    def show_product_page():
+        products = Product.objects.all()
+        result = [(product.name, product.price, product.quantity,
+                   space_to_underline(product.name) + "_" + product.user.username,
+                   product.id,
+                   product.user.first_name,
+                   product.user.last_name,
+                   product.tag.all(),
+                   get_link(product.product_image),
+                   get_avg(product.rate.all())) for product in products]
+        return render(request,'accounts/enitre_products.html', {'products':result})
+
     if request.method == 'POST':
         requested_quantity = int(request.POST.get('quantity'))
         product = Product.objects.get(id=int(id))
@@ -325,14 +338,14 @@ def cart(request, id='-1'):
 
         if request.user == product.user:
             messages.add_message(request, messages.INFO, 'شما نمی‌توانید محصول خود را خریداری کنید')
-            return redirect('accounts:entire_products')
+            return show_product_page()
 
         if available_quantity < requested_quantity:
             # send error
             messages.add_message(request, messages.INFO, 'موجودی محصول کافی نیست')
-            return redirect('accounts:entire_products')
+            return show_product_page()
 
-        shop_card = ShoppingCard(product=product,buy_quantity=requested_quantity)
+        shop_card = ShoppingCard(product=product, buy_quantity=requested_quantity)
         shop_card.save()
         shop_card.user.add(request.user)
         shop_card.save()
@@ -346,4 +359,3 @@ def cart(request, id='-1'):
         total_price += item.buy_quantity * item.product.price
 
     return render(request, 'accounts/cart.html', {'total_price': total_price, 'items': shopping_card})
-
