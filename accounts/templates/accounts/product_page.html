@@ -12,4 +12,29 @@
     <div id="seller_name">{{ product.user.first_name }}</div>
     <div id="seller_family">{{ product.user.last_name }}</div>
 
+    <div id="comments">
+        {% for commnet in comments %}
+            <div>
+                <div>
+                    {{ comment.user.first_name }}
+                    {{ commnet.user.last_name }}
+                </div>
+            <div>
+                {{ commnet.text }}
+            </div>
+
+            </div>
+        {% endfor %}
+
+    </div>
+
+    {% if user.is_authenticated %}
+        <form id="write_comment" method="post">
+            {% csrf_token %}
+            <textarea name="text"></textarea>
+            <input type="submit">
+        </form>
+    {% endif %}
+
+
 {% endblock %}

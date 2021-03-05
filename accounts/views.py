@@ -216,8 +216,10 @@ class EntireProducts(ListView):
 
 def product_page(request, id):
     product = Product.objects.get(id=id)
+    comments = product.comments.all()
 
-    return render(request,'accounts/product_page.html', {'product': product})
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        product.comments.create(text=text, user=request.user)
 
-
-
+    return render(request, 'accounts/product_page.html', {'product': product, 'comments': comments})
