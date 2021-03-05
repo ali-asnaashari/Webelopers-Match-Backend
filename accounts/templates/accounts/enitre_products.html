@@ -22,6 +22,8 @@
             {#            class name#}
 
             <div class="{{ product.3 }}">
+                <img src="{{ product.8 }}" id="profile_image_{{ product.3 }}">
+
                 <a href="{% url 'accounts:edit' product.4 %}" id="edit_{{ product.3 }}">edit</a>
                 <a href="{% url 'accounts:product_page' product.4 %}" id="{{ product.3 }}">go to product</a>
                 <a href="{% url 'accounts:delete_product' product.4 %}" id="delete_{{ product.3 }}">delete</a>
@@ -54,7 +56,6 @@
                 </div>
 
                 {#            image#}
-                <img src="{{ product.8 }}" alt="image" id="profile_image_{{ product.3 }}">
 
 
                 <form method="post" id="rate_{{ product.3 }}" action="{% url 'accounts:rate' product.4 1 %}">
