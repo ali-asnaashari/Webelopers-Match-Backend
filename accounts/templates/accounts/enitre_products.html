@@ -16,6 +16,21 @@
         <button type="submit" name="submit">submit</button>
     </form>
 
+    <form action="{% url 'accounts:order' %}" method="post" id="order_products">
+        {% csrf_token %}
+        <select name="order_type" id="order_type">
+            <option value="username" name="username">seller username</option>
+            <option value="price" name="price">price</option>
+            <option value="rate" name="rate">rate</option>
+        </select>
+
+        <select name="order" id="order">
+            <option value="asc" name="asc">asc</option>
+            <option value="desc" name="desc">desc</option>
+        </select>
+        <button name="submit" type="submit">order</button>
+    </form>
+
 
     <div id="all_products">
         {% for product in products %}

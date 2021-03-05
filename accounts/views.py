@@ -159,7 +159,7 @@ def edit(request, id):
             product.quantity = int(form.cleaned_data.get('quantity'))
             product.price = int(form.cleaned_data.get('price'))
             product.product_image = form.cleaned_data.get('product_image')
-    
+
             # should fix
             # Product.objects.create(user=request.user, name=name, quantity=quantity, price=price)
             product.save()
@@ -267,15 +267,42 @@ def product_page(request, id):
                   {'product': product, 'comments': comments, 'product_image_url': product_image_url})
 
 
-def rate(request, id,redirect_page):
+def rate(request, id, redirect_page):
     if request.method == 'POST':
         product = Product.objects.get(id=id)
         rate_num = request.POST.get('rate')
         product.rate.create(rate_number=rate_num)
         product.save()
-        if redirect_page=='1':
+        if redirect_page == '1':
             return redirect("accounts:entire_products")
         else:
             return redirect("accounts:all_products")
 
+    return HttpResponse('fail')
+
+
+def order(request):
+    if request.method == "POST":
+        order_type = request.POST.get('order_type')
+        order = request.POST.get('order')
+
+        prefix = '-' if order == 'desc' else ''
+        global products
+        if order_type == 'username':
+            products = Product.objects.order_by(prefix + 'user__username')
+        elif order_type == 'price':
+            products = Product.objects.order_by(prefix + 'price')
+        elif order_type == 'rate':
+            products = Product.objects.order_by(prefix + 'rate')
+
+        result = [(product.name, product.price, product.quantity,
+                   space_to_underline(product.name) + "_" + product.user.username,
+                   product.id,
+                   product.user.first_name,
+                   product.user.last_name,
+                   product.tag.all(),
+                   get_link(product.product_image),
+                   get_avg(product.rate.all())) for product in products]
+
+        return render(request, 'accounts/enitre_products.html', {'products': result})
     return HttpResponse('fail')
