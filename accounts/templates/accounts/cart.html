@@ -20,6 +20,11 @@
                 {#            requested quantity#}
                 {{ item.buy_quantity }}
             </div>
+
+            <form action="{% url 'accounts:cart_delete' item.pk %}" method="post" id="{{ item.product.name }}_{{ item.product.user.username }}">
+                {% csrf_token %}
+                <input type="submit" name="submit">
+            </form>
         </div>
     {% endfor %}
 

@@ -318,7 +318,6 @@ def order(request):
 
 
 def cart(request, id='-1'):
-
     def show_product_page():
         products = Product.objects.all()
         result = [(product.name, product.price, product.quantity,
@@ -329,7 +328,7 @@ def cart(request, id='-1'):
                    product.tag.all(),
                    get_link(product.product_image),
                    get_avg(product.rate.all())) for product in products]
-        return render(request,'accounts/enitre_products.html', {'products':result})
+        return render(request, 'accounts/enitre_products.html', {'products': result})
 
     if request.method == 'POST':
         requested_quantity = int(request.POST.get('quantity'))
@@ -360,5 +359,8 @@ def cart(request, id='-1'):
 
     return render(request, 'accounts/cart.html', {'total_price': total_price, 'items': shopping_card})
 
-def cart_delete(request):
-    return HttpResponse('hello')
+
+def cart_delete(request, pk):
+    my_cart = ShoppingCard.objects.get(pk=pk)
+    my_cart.delete()
+    return redirect(reverse("accounts:cart",kwargs={'id':'-1'}))
