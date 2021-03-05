@@ -12,6 +12,9 @@
     <div id="seller_name">{{ product.user.first_name }}</div>
     <div id="seller_family">{{ product.user.last_name }}</div>
 
+
+    <img src="{{ product.product_image.url }}" alt="image" id="product_image">
+
     <div id="comments">
         {% for commnet in comments %}
             <div>

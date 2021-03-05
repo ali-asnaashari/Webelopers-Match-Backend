@@ -58,7 +58,9 @@ def panel(request):
 
 def create_item(request):
     if request.method == 'POST':
-        form = CreateItemForm(request.POST)
+        data = request.POST.copy()
+        data.update({'user': request.user, })
+        form = CreateItemForm(data, request.FILES)
         if form.is_valid():
             # form.save()
 
@@ -101,11 +103,18 @@ class AllProducts(ListView):
         def space_to_underline(string):
             return string.replace(' ', '_')
 
+        def get_link(obj):
+            if obj:
+                return obj.url
+
+            return ''
+
         products = Product.objects.filter(user=self.request.user)
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
                    product.id,
-                   product.tag.all()) for product in products]
+                   product.tag.all(),
+                   get_link(product.product_image)) for product in products]
         print(result[0][5])
         # 0 : name
         # 1 : price
@@ -113,6 +122,7 @@ class AllProducts(ListView):
         # 3: class name
         # 4: id
         # 5: tags
+        # 6: image url
         return result
 
 
@@ -123,7 +133,11 @@ def edit(request, id):
     quantity = product.quantity
 
     if request.method == 'POST':
-        form = CreateItemForm(request.POST, request.FILES)
+
+        data = request.POST.copy()
+        data.update({'user': request.user, })
+        # data.update({'user': request.user, 'comments': product.comments.all(), 'tag': product.tag.all()})
+        form = CreateItemForm(data, request.FILES)
         if form.is_valid():
             form.save()
 
@@ -181,17 +195,23 @@ class EntireProducts(ListView):
             res = Product.objects.filter(tag__name__in=tags)
             for item in res:
                 if not products.get(name__exact=item.name):
-                    products+=item
+                    products += item
 
         def space_to_underline(string):
             return string.replace(' ', '_')
+        def get_link(obj):
+            if obj:
+                return obj.url
+
+            return ''
 
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
                    product.id,
                    product.user.first_name,
                    product.user.last_name,
-                   product.tag.all()) for product in products]
+                   product.tag.all(),
+                   get_link(product.product_image)) for product in products]
         # 0 : name
         # 1 : price
         # 2: quentity
@@ -200,11 +220,18 @@ class EntireProducts(ListView):
         # 5: first name
         # 6: last name
         # 7: tag
+        # 8: product image url
         return render(request, 'accounts/enitre_products.html', {'products': result})
 
     def get_queryset(self, ):
         def space_to_underline(string):
             return string.replace(' ', '_')
+
+        def get_link(obj):
+            if obj:
+                return obj.url
+
+            return ''
 
         products = Product.objects.all()
         result = [(product.name, product.price, product.quantity,
@@ -212,7 +239,8 @@ class EntireProducts(ListView):
                    product.id,
                    product.user.first_name,
                    product.user.last_name,
-                   product.tag.all()) for product in products]
+                   product.tag.all(),
+                   get_link(product.product_image)) for product in products]
         # 0 : name
         # 1 : price
         # 2: quentity
@@ -221,6 +249,7 @@ class EntireProducts(ListView):
         # 5: first name
         # 6: last name
         # 7: tag
+        # 8: product image
         return result
 
 

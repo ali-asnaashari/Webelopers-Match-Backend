@@ -28,6 +28,11 @@ class CreateItemForm(forms.ModelForm):
                             widget=forms.TextInput(attrs={'name': 'price'}))
     tag = forms.CharField(required=False, widget=forms.TextInput(attrs={'name': 'tag'}))
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['product_image'].widget.attrs.update({'id': 'product_image'})
+
+
     def set_initial(self, name_text='', price_text=0, quantity_text=0):
         # self.name.initial = name_text
         # self.price.initial = price_text
@@ -36,4 +41,11 @@ class CreateItemForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('name', 'quantity', 'price', 'tag', 'product_image')
+        fields = ('name', 'quantity', 'price', 'tag', 'product_image', 'user', )
+        widgets = {
+            'user': forms.HiddenInput,
+            # 'product_image':forms.FileField(widget=forms.ImageField(at))
+            # 'comments': forms.HiddenInput(attrs={'required':False}),
+            # 'tag': forms.HiddenInput(attrs={'required':False}),
+
+        }
