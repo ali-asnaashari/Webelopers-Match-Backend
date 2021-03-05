@@ -286,6 +286,9 @@ def order(request):
         order_type = request.POST.get('order_type')
         order = request.POST.get('order')
 
+        print(order_type)
+        print(order)
+
         prefix = '-' if order == 'desc' else ''
         global products
         if order_type == 'username':
@@ -293,8 +296,14 @@ def order(request):
         elif order_type == 'price':
             products = Product.objects.order_by(prefix + 'price')
         elif order_type == 'rate':
-            products = Product.objects.order_by(prefix + 'rate_average')
-            Product.objects.annotate(average_stars=Avg('rate__rate_number')).order_by(prefix+'rate__rate_number')
+            # products = Product.objects.order_by(prefix + 'rate_average')
+            Product.objects.annotate(avg_rate=Avg('rate__rate_number')).order_by(prefix+'rate__rate_number')
+
+
+        res = Product.objects.annotate(average=Avg('rate')).all()
+        print(res)
+
+
 
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
