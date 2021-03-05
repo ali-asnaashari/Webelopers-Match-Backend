@@ -2,7 +2,7 @@ from django.contrib.auth.views import LoginView
 from django.urls import path
 
 from accounts.views import signup, logout_user, panel, create_item, AllProducts, edit, delete_product, \
-    EntireProducts, product_page, rate, order, cart
+    EntireProducts, product_page, rate, order, cart, cart_delete
 
 app_name = 'accounts'
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('panel/', panel, name='panel'),
     path('create_item/', create_item, name='create_item'),
     path('cart/<id>/', cart, name='cart'),
+    path('cart/delete/',cart_delete, name='cart_delete'),
     path('rate/<id>/<redirect_page>', rate, name='rate'),
     path("order/", order, name='order'),
     path('all_products/', AllProducts.as_view(), name='all_products'),

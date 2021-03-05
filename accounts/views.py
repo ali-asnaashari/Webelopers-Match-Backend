@@ -359,3 +359,6 @@ def cart(request, id='-1'):
         total_price += item.buy_quantity * item.product.price
 
     return render(request, 'accounts/cart.html', {'total_price': total_price, 'items': shopping_card})
+
+def cart_delete(request):
+    return HttpResponse('hello')
