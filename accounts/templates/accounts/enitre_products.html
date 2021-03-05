@@ -22,7 +22,7 @@
             {#            class name#}
 
             <div class="{{ product.3 }}">
-                <img src="{{ product.8 }}" id="profile_image_{{ product.3 }}">
+                <img src="{{ product.8 }}" id="profile_image_{{ product.3 }}" name="profile_image_{{ product.3 }}">
 
                 <a href="{% url 'accounts:edit' product.4 %}" id="edit_{{ product.3 }}">edit</a>
                 <a href="{% url 'accounts:product_page' product.4 %}" id="{{ product.3 }}">go to product</a>
