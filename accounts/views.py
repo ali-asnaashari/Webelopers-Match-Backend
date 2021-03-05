@@ -153,14 +153,16 @@ def edit(request, id):
         # data.update({'user': request.user, 'comments': product.comments.all(), 'tag': product.tag.all()})
         form = CreateItemForm(data, request.FILES)
         if form.is_valid():
-            form.save()
+            # form.save()
 
-            # product.name = form.cleaned_data.get('name')
-            # product.quantity = int(form.cleaned_data.get('quantity'))
-            # product.price = int(form.cleaned_data.get('price'))
+            product.name = form.cleaned_data.get('name')
+            product.quantity = int(form.cleaned_data.get('quantity'))
+            product.price = int(form.cleaned_data.get('price'))
+            product.product_image = form.cleaned_data.get('product_image')
+
             # should fix
             # Product.objects.create(user=request.user, name=name, quantity=quantity, price=price)
-            # product.save()
+            product.save()
             return redirect('accounts:all_products')
 
     form = CreateItemForm()
