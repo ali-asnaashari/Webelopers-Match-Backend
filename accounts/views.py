@@ -212,3 +212,12 @@ class EntireProducts(ListView):
         # 6: last name
         # 7: tag
         return result
+
+
+def product_page(request, id):
+    product = Product.objects.get(id=id)
+
+    return render(request,'accounts/product_page.html', {'product': product})
+
+
+

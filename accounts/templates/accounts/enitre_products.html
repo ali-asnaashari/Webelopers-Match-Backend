@@ -20,6 +20,7 @@
         {% for product in products %}
             {#            class name#}
             <a href="{% url 'accounts:edit' product.4 %}" id="edit_{{ product.3 }}">edit</a>
+            <a href="{% url 'accounts:product_page' product.4 %}" id="{{ product.3 }}">go to product</a>
             <a href="{% url 'accounts:delete_product' product.4 %}" id="delete_{{ product.3 }}">delete</a>
 
             <div class="{{ product.3 }}">

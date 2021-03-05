@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    product page
+{% endblock %}
+
+
+{% block content %}
+    <h4 id="name">{{ product.name }}</h4>
+    <div id="quantity">{{ product.quantity }}</div>
+    <div id="price">{{ product.price }}</div>
+    <div id="seller_name">{{ product.user.first_name }}</div>
+    <div id="seller_family">{{ product.user.last_name }}</div>
+
+{% endblock %}
