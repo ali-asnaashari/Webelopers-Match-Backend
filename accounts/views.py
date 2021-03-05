@@ -363,7 +363,7 @@ def cart(request, id='-1'):
             str(shopping_card[i].product.price),
             str(shopping_card[i].buy_quantity),
             space_to_underline(shopping_card[i].product.name + '_' + shopping_card[i].product.user.username),
-            shopping_card[i].product.pk
+            shopping_card[i].pk
         ))
 
         print("hhh", my_res[i])
