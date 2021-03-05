@@ -14,6 +14,10 @@ class Comment(models.Model):
     text = models.TextField()
 
 
+class Rate(models.Model):
+    rate_number = models.PositiveBigIntegerField(default=0)
+
+
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.TextField()
@@ -21,7 +25,9 @@ class Product(models.Model):
     price = models.IntegerField()
     tag = models.ManyToManyField(Tag)
     comments = models.ManyToManyField(Comment)
-    product_image = models.ImageField(upload_to='images/',blank=True)
+    product_image = models.ImageField(upload_to='images/', blank=True)
+    rate = models.ManyToManyField(Rate)
+
 
     def __str__(self):
         return self.name

@@ -53,8 +53,18 @@
                     {% endfor %}
                 </div>
 
-            {#            image#}
+                {#            image#}
                 <img src="{{ product.8 }}" alt="image" id="profile_image_{{ product.3 }}">
+
+                <form method="post" id="rate_{{ product.3 }}" action="{% url 'accounts:rate' product.4 1 %}">
+                    {% csrf_token %}
+                    <input type="number" name="rate" min="0" max="5">
+                    <input type="submit" name="submit">
+                </form>
+
+                <div id="product_rate">
+                    {{ product.9 }}
+                </div>
 
             </div>
         {% endfor %}

@@ -104,6 +104,18 @@ def get_link(obj):
 
     return 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/330px-Image_created_with_a_mobile_phone.png'
 
+
+def get_avg(rates):
+    average = 0
+    n = len(rates)
+    if n > 0:
+        sum = 0
+        for rate in rates:
+            sum += rate.rate_number
+        return sum / n
+    return average
+
+
 class AllProducts(ListView):
     template_name = 'accounts/all_products.html'
     context_object_name = 'products'
@@ -115,8 +127,8 @@ class AllProducts(ListView):
                    space_to_underline(product.name) + "_" + product.user.username,
                    product.id,
                    product.tag.all(),
-                   get_link(product.product_image)) for product in products]
-        print(result[0][5])
+                   get_link(product.product_image),
+                   get_avg(product.rate.all())) for product in products]
         # 0 : name
         # 1 : price
         # 2: quentity
@@ -124,6 +136,7 @@ class AllProducts(ListView):
         # 4: id
         # 5: tags
         # 6: image url
+        # 7: rate avg
         return result
 
 
@@ -189,14 +202,11 @@ class EntireProducts(ListView):
                 products = Product.objects.filter(
                     Q(price__gte=int(min_price)))
 
-
-
         if len(tags):
             res = Product.objects.filter(tag__name__in=tags)
             for item in res:
                 if not products.get(name__exact=item.name):
                     products += item
-
 
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
@@ -204,7 +214,9 @@ class EntireProducts(ListView):
                    product.user.first_name,
                    product.user.last_name,
                    product.tag.all(),
-                   get_link(product.product_image)) for product in products]
+                   get_link(product.product_image),
+                   get_avg(product.rate.all()),) for product in products]
+
         # 0 : name
         # 1 : price
         # 2: quentity
@@ -214,10 +226,10 @@ class EntireProducts(ListView):
         # 6: last name
         # 7: tag
         # 8: product image url
+        # 9: rate avg
         return render(request, 'accounts/enitre_products.html', {'products': result})
 
     def get_queryset(self, ):
-
 
         products = Product.objects.all()
         result = [(product.name, product.price, product.quantity,
@@ -226,7 +238,8 @@ class EntireProducts(ListView):
                    product.user.first_name,
                    product.user.last_name,
                    product.tag.all(),
-                   get_link(product.product_image)) for product in products]
+                   get_link(product.product_image),
+                   get_avg(product.rate.all())) for product in products]
         # 0 : name
         # 1 : price
         # 2: quentity
@@ -236,6 +249,7 @@ class EntireProducts(ListView):
         # 6: last name
         # 7: tag
         # 8: product image
+        # 9: rate average
         return result
 
 
@@ -247,4 +261,19 @@ def product_page(request, id):
         text = request.POST.get('text')
         product.comments.create(text=text, user=request.user)
     product_image_url = get_link(product.product_image)
-    return render(request, 'accounts/product_page.html', {'product': product, 'comments': comments, 'product_image_url':product_image_url})
+    return render(request, 'accounts/product_page.html',
+                  {'product': product, 'comments': comments, 'product_image_url': product_image_url})
+
+
+def rate(request, id,redirect_page):
+    if request.method == 'POST':
+        product = Product.objects.get(id=id)
+        rate_num = request.POST.get('rate')
+        product.rate.create(rate_number=rate_num)
+        product.save()
+        if redirect_page=='1':
+            return redirect("accounts:entire_products")
+        else:
+            return redirect("accounts:all_products")
+
+    return HttpResponse('fail')
