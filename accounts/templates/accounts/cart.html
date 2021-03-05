@@ -7,21 +7,22 @@
 {% block content %}
 
     {% for item in items %}
-        <div class="{{ identifier.forloop.counter }}">
+        <div class="{{ item.3 }}">
+
             <div>
                 {#                name#}
-                {{ item.product.name }}
+                {{ item.0 }}
             </div>
             <div>
                 {#            price#}
-                {{ item.product.price }}
+                {{ item.1 }}
             </div>
             <div>
                 {#            requested quantity#}
-                {{ item.buy_quantity }}
+                {{ item.2 }}
             </div>
 
-            <form action="{% url 'accounts:cart_delete' item.pk %}" method="post" id="{{ identifier.forloop.counter }}">
+            <form action="{% url 'accounts:cart_delete' item.0.pk %}" method="post" id="{{ item.3 }}">
                 {% csrf_token %}
                 <input type="submit" name="submit">
             </form>

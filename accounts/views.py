@@ -352,16 +352,30 @@ def cart(request, id='-1'):
         # ShoppingCard.objects.create(user=request.user, product=product, buy_quantity=requested_quantity)
 
     shopping_card = ShoppingCard.objects.filter(user__in=[request.user])
-    identifier = [space_to_underline(it.product.name+'_'+it.product.user.username) for it in shopping_card]
+    identifier = [space_to_underline(it.product.name + '_' + it.product.user.username) for it in shopping_card]
+
+    my_res = []
+    for i in range(len(shopping_card)):
+        print(shopping_card[i])
+        # shopping_card[i] += ("clazz",identifier[i])
+        my_res += [shopping_card[i], identifier[i]]
+
+        my_res += [
+            shopping_card[i].product.price,
+            shopping_card[i].product.name,
+            shopping_card[i].buy_quantity,
+            space_to_underline(shopping_card[i].product.name + '_' + shopping_card[i].product.user.username)
+        ]
 
     total_price = 0
     for item in shopping_card:
         total_price += item.buy_quantity * item.product.price
 
-    return render(request, 'accounts/cart.html', {'total_price': total_price, 'items': shopping_card, 'identifier':identifier})
+    return render(request, 'accounts/cart.html',
+                  {'total_price': total_price, 'items': my_res, 'identifier': identifier})
 
 
 def cart_delete(request, pk):
     my_cart = ShoppingCard.objects.get(pk=pk)
     my_cart.delete()
-    return redirect(reverse("accounts:cart",kwargs={'id':'-1'}))
+    return redirect(reverse("accounts:cart", kwargs={'id': '-1'}))
