@@ -2,7 +2,7 @@ import sys
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
-from django.db.models import F, Q
+from django.db.models import F, Q, Avg
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -293,7 +293,8 @@ def order(request):
         elif order_type == 'price':
             products = Product.objects.order_by(prefix + 'price')
         elif order_type == 'rate':
-            products = Product.objects.order_by(prefix + 'rate')
+            products = Product.objects.order_by(prefix + 'rate_average')
+            Product.objects.annotate(average_stars=Avg('rate__rate_number')).order_by(prefix+'rate__rate_number')
 
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,

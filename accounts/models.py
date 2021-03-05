@@ -28,6 +28,16 @@ class Product(models.Model):
     product_image = models.ImageField(upload_to='images/', blank=True)
     rate = models.ManyToManyField(Rate)
 
+    def rate_avg(self):
+        all = self.rate.all()
+        n = len(all)
+        sum = 0
+        for item in all:
+            sum += item.rate_number
+        if n == 0:
+            return 0
+
+        return sum / n
 
     def __str__(self):
         return self.name
