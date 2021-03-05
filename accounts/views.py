@@ -323,12 +323,13 @@ def cart(request, id='-1'):
         product = Product.objects.get(id=int(id))
         available_quantity = product.quantity
 
+        if request.user == product.user:
+            messages.add_message(request, messages.INFO, 'شما نمی‌توانید محصول خود را خریداری کنید')
+            return redirect('accounts:entire_products')
+
         if available_quantity < requested_quantity:
             # send error
             messages.add_message(request, messages.INFO, 'موجودی محصول کافی نیست')
-            return redirect('accounts:entire_products')
-        if request.user == product.user:
-            messages.add_message(request, messages.INFO, 'شما نمی‌توانید محصول خود را خریداری کنید')
             return redirect('accounts:entire_products')
 
         shop_card = ShoppingCard(product=product,buy_quantity=requested_quantity)
