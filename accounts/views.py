@@ -352,12 +352,13 @@ def cart(request, id='-1'):
         # ShoppingCard.objects.create(user=request.user, product=product, buy_quantity=requested_quantity)
 
     shopping_card = ShoppingCard.objects.filter(user__in=[request.user])
+    identifier = [space_to_underline(it.product.name+'_'+it.product.user.username) for it in shopping_card]
 
     total_price = 0
     for item in shopping_card:
         total_price += item.buy_quantity * item.product.price
 
-    return render(request, 'accounts/cart.html', {'total_price': total_price, 'items': shopping_card})
+    return render(request, 'accounts/cart.html', {'total_price': total_price, 'items': shopping_card, 'identifier':identifier})
 
 
 def cart_delete(request, pk):

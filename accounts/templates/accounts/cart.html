@@ -7,7 +7,7 @@
 {% block content %}
 
     {% for item in items %}
-        <div class="{{ item.product.name }}_{{ item.product.user.username }}">
+        <div class="{{ identifier.forloop.counter }}">
             <div>
                 {#                name#}
                 {{ item.product.name }}
@@ -21,7 +21,7 @@
                 {{ item.buy_quantity }}
             </div>
 
-            <form action="{% url 'accounts:cart_delete' item.pk %}" method="post" id="{{ item.product.name }}_{{ item.product.user.username }}">
+            <form action="{% url 'accounts:cart_delete' item.pk %}" method="post" id="{{ identifier.forloop.counter }}">
                 {% csrf_token %}
                 <input type="submit" name="submit">
             </form>
