@@ -156,6 +156,7 @@ class EntireProducts(ListView):
         title = request.POST.get('title')
         min_price = request.POST.get('min_price')
         max_price = request.POST.get('max_price')
+        tags = request.POST.get('tag').split(',')
 
         products = Product.objects.filter(name__contains=title)
         if max_price != '' or min_price != '':
@@ -175,6 +176,15 @@ class EntireProducts(ListView):
 
             def space_to_underline(string):
                 return string.replace(' ', '_')
+
+        if len(tags):
+            res = Product.objects.filter(tag__name__in=tags)
+            for item in res:
+                if not products.get(name__exact=item.name):
+                    products+=item
+
+        def space_to_underline(string):
+            return string.replace(' ', '_')
 
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
