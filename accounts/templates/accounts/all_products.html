@@ -22,12 +22,16 @@
                     {#                    quentity#}
                     {{ product.2 }}
                 </div>
-{#            tags#}
-            {% for tag in product.5 %}
+                {#            tags#}
                 <div>
-                    {{ tag.name }}
+
+                    {% for tag in product.5 %}
+                        <div>
+                            {{ tag.name }}
+
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
 
             </div>
         {% endfor %}
