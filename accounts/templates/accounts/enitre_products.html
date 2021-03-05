@@ -8,15 +8,7 @@
 {% block content %}
 
     <div id="error">
-
-        {% if messages %}
-
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-
-        {% endif %}
-
+        {% if messages %}{% for message in messages %}{{ message }}{% endfor %}{% endif %}
     </div>
 
 
