@@ -21,6 +21,7 @@ class Product(models.Model):
     price = models.IntegerField()
     tag = models.ManyToManyField(Tag)
     comments = models.ManyToManyField(Comment)
+    product_image = models.ImageField(upload_to='images/',blank=True)
 
     def __str__(self):
         return self.name

@@ -5,7 +5,7 @@
 
 
 {% block content %}
-    <form method="post" id="edit_product">
+    <form method="post" id="edit_product" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
             <p>
