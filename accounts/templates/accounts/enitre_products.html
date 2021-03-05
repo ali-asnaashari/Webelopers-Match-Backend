@@ -44,11 +44,14 @@
                     {{ product.6 }}
 
                 </div>
-                {% for tag in product.7 %}
-                    <div>
-                        {{ tag.name }}
-                    </div>
-                {% endfor %}
+                <div>
+
+                    {% for tag in product.5 %}
+                        <h4>
+                            {{ tag.name }}
+                        </h4>
+                    {% endfor %}
+                </div>
 
             </div>
         {% endfor %}
