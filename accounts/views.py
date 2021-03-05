@@ -1,5 +1,6 @@
 import sys
 
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 from django.db.models import F, Q, Avg
@@ -9,7 +10,8 @@ from django.urls import reverse
 from django.views.generic import ListView
 
 from accounts.forms import SignUpForm, CreateItemForm
-from accounts.models import Product, Tag
+from accounts.models import Product, Tag, ShoppingCard
+from django.contrib import messages
 
 
 def signup(request):
@@ -297,13 +299,10 @@ def order(request):
             products = Product.objects.order_by(prefix + 'price')
         elif order_type == 'rate':
             # products = Product.objects.order_by(prefix + 'rate_average')
-            Product.objects.annotate(avg_rate=Avg('rate__rate_number')).order_by(prefix+'rate__rate_number')
-
+            Product.objects.annotate(avg_rate=Avg('rate__rate_number')).order_by(prefix + 'rate__rate_number')
 
         res = Product.objects.annotate(average=Avg('rate')).all()
         print(res)
-
-
 
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
@@ -316,3 +315,34 @@ def order(request):
 
         return render(request, 'accounts/enitre_products.html', {'products': result})
     return HttpResponse('fail')
+
+
+def cart(request, id='-1'):
+    if request.method == 'POST':
+        requested_quantity = int(request.POST.get('quantity'))
+        product = Product.objects.get(id=int(id))
+        available_quantity = product.quantity
+
+        if available_quantity < requested_quantity:
+            # send error
+            messages.add_message(request, messages.INFO, 'موجودی محصول کافی نیست')
+            return redirect('accounts:entire_products')
+        if request.user == product.user:
+            messages.add_message(request, messages.INFO, 'شما نمی‌توانید محصول خود را خریداری کنید')
+            return redirect('accounts:entire_products')
+
+        shop_card = ShoppingCard(product=product,buy_quantity=requested_quantity)
+        shop_card.save()
+        shop_card.user.add(request.user)
+        shop_card.save()
+
+        # ShoppingCard.objects.create(user=request.user, product=product, buy_quantity=requested_quantity)
+
+    shopping_card = ShoppingCard.objects.filter(user__in=[request.user])
+
+    total_price = 0
+    for item in shopping_card:
+        total_price += item.buy_quantity * item.product.price
+
+    return render(request, 'accounts/cart.html', {'total_price': total_price, 'items': shopping_card})
+

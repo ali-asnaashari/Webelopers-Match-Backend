@@ -31,3 +31,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ShoppingCard(models.Model):
+    user = models.ManyToManyField(User)
+    product = models.OneToOneField(Product,on_delete=models.CASCADE)
+    buy_quantity=models.IntegerField()
+
+

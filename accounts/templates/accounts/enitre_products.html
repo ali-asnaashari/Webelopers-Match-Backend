@@ -7,6 +7,21 @@
 
 {% block content %}
 
+    <div id="error">
+
+        {% if messages %}
+
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+
+        {% endif %}
+
+    </div>
+
+
+
+
     <form method="post" id="search_products">
         {% csrf_token %}
         <input type="text" name="title">
@@ -37,6 +52,11 @@
             {#            class name#}
 
             <div class="{{ product.3 }}">
+                <form action="{% url 'accounts:cart' product.4 %}" method="post" id="cart_{{ product.3 }}">
+                    {% csrf_token %}
+                    <input type="number" min="1" name="quantity">
+                    <input type="submit" name="submit">
+                </form>
                 <img src="{{ product.8 }}" id="product_image_{{ product.3 }}" name="product_image_{{ product.3 }}">
 
                 <a href="{% url 'accounts:edit' product.4 %}" id="edit_{{ product.3 }}">edit</a>
