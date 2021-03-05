@@ -35,7 +35,7 @@ class Product(models.Model):
 
 class ShoppingCard(models.Model):
     user = models.ManyToManyField(User)
-    product = models.OneToOneField(Product,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
     buy_quantity=models.IntegerField()
 
 
