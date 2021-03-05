@@ -246,5 +246,5 @@ def product_page(request, id):
     if request.method == 'POST':
         text = request.POST.get('text')
         product.comments.create(text=text, user=request.user)
-
-    return render(request, 'accounts/product_page.html', {'product': product, 'comments': comments})
+    product_image_url = get_link(product.product_image)
+    return render(request, 'accounts/product_page.html', {'product': product, 'comments': comments, 'product_image_url':product_image_url})
