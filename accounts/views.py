@@ -159,7 +159,7 @@ def edit(request, id):
             product.quantity = int(form.cleaned_data.get('quantity'))
             product.price = int(form.cleaned_data.get('price'))
             product.product_image = form.cleaned_data.get('product_image')
-
+    
             # should fix
             # Product.objects.create(user=request.user, name=name, quantity=quantity, price=price)
             product.save()

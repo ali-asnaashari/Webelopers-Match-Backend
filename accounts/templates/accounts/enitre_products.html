@@ -54,7 +54,10 @@
                 </div>
 
                 {#            image#}
-                <img src="{{ product.8 }}" alt="image" id="profile_image_{{ product.3 }}">
+                <div>
+
+                    <img src="{{ product.8 }}" alt="image" id="profile_image_{{ product.3 }}">
+                </div>
 
                 <form method="post" id="rate_{{ product.3 }}" action="{% url 'accounts:rate' product.4 1 %}">
                     {% csrf_token %}
