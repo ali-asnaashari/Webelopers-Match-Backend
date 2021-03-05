@@ -94,21 +94,22 @@ def create_item(request):
     return render(request, 'accounts/create-item.html', {'form': form})
 
 
+def space_to_underline(string):
+    return string.replace(' ', '_')
+
+
+def get_link(obj):
+    if obj:
+        return obj.url
+
+    return 'https://google.com'
+
 class AllProducts(ListView):
     template_name = 'accounts/all_products.html'
     context_object_name = 'products'
     model = Product
 
     def get_queryset(self):
-        def space_to_underline(string):
-            return string.replace(' ', '_')
-
-        def get_link(obj):
-            if obj:
-                return obj.url
-
-            return ''
-
         products = Product.objects.filter(user=self.request.user)
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
@@ -188,8 +189,7 @@ class EntireProducts(ListView):
                 products = Product.objects.filter(
                     Q(price__gte=int(min_price)))
 
-            def space_to_underline(string):
-                return string.replace(' ', '_')
+
 
         if len(tags):
             res = Product.objects.filter(tag__name__in=tags)
@@ -197,13 +197,6 @@ class EntireProducts(ListView):
                 if not products.get(name__exact=item.name):
                     products += item
 
-        def space_to_underline(string):
-            return string.replace(' ', '_')
-        def get_link(obj):
-            if obj:
-                return obj.url
-
-            return ''
 
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
@@ -224,14 +217,7 @@ class EntireProducts(ListView):
         return render(request, 'accounts/enitre_products.html', {'products': result})
 
     def get_queryset(self, ):
-        def space_to_underline(string):
-            return string.replace(' ', '_')
 
-        def get_link(obj):
-            if obj:
-                return obj.url
-
-            return ''
 
         products = Product.objects.all()
         result = [(product.name, product.price, product.quantity,
