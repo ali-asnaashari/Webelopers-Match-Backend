@@ -104,12 +104,15 @@ class AllProducts(ListView):
         products = Product.objects.filter(user=self.request.user)
         result = [(product.name, product.price, product.quantity,
                    space_to_underline(product.name) + "_" + product.user.username,
-                   product.id) for product in products]
+                   product.id,
+                   product.tag.all()) for product in products]
+        print(result[0][5])
         # 0 : name
         # 1 : price
         # 2: quentity
         # 3: class name
         # 4: id
+        # 5: tags
         return result
 
 
@@ -177,7 +180,8 @@ class EntireProducts(ListView):
                    space_to_underline(product.name) + "_" + product.user.username,
                    product.id,
                    product.user.first_name,
-                   product.user.last_name) for product in products]
+                   product.user.last_name,
+                   product.tag.all()) for product in products]
         # 0 : name
         # 1 : price
         # 2: quentity
@@ -185,6 +189,7 @@ class EntireProducts(ListView):
         # 4: id
         # 5: first name
         # 6: last name
+        # 7: tag
         return render(request, 'accounts/enitre_products.html', {'products': result})
 
     def get_queryset(self, ):
@@ -196,7 +201,8 @@ class EntireProducts(ListView):
                    space_to_underline(product.name) + "_" + product.user.username,
                    product.id,
                    product.user.first_name,
-                   product.user.last_name) for product in products]
+                   product.user.last_name,
+                   product.tag.all()) for product in products]
         # 0 : name
         # 1 : price
         # 2: quentity
@@ -204,4 +210,5 @@ class EntireProducts(ListView):
         # 4: id
         # 5: first name
         # 6: last name
+        # 7: tag
         return result

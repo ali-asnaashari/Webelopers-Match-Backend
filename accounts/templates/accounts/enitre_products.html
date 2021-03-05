@@ -43,6 +43,12 @@
                     {{ product.6 }}
 
                 </div>
+                {% for tag in product.7 %}
+                    <div>
+                        {{ tag.name }}
+                    </div>
+                {% endfor %}
+
             </div>
         {% endfor %}
     </div>
