@@ -356,23 +356,24 @@ def cart(request, id='-1'):
 
     my_res = []
     for i in range(len(shopping_card)):
-        print(shopping_card[i])
-        # shopping_card[i] += ("clazz",identifier[i])
-        my_res += [shopping_card[i], identifier[i]]
 
-        my_res += [
-            shopping_card[i].product.price,
-            shopping_card[i].product.name,
-            shopping_card[i].buy_quantity,
-            space_to_underline(shopping_card[i].product.name + '_' + shopping_card[i].product.user.username)
-        ]
+
+        my_res.append( (
+            str(shopping_card[i].product.name),
+            str(shopping_card[i].product.price),
+            str(shopping_card[i].buy_quantity),
+            space_to_underline(shopping_card[i].product.name + '_' + shopping_card[i].product.user.username),
+            shopping_card[i].product.pk
+        ))
+
+        print("hhh", my_res[i])
 
     total_price = 0
     for item in shopping_card:
         total_price += item.buy_quantity * item.product.price
-
+    print(type(my_res[0]))
     return render(request, 'accounts/cart.html',
-                  {'total_price': total_price, 'items': my_res, 'identifier': identifier})
+                  {'total_price': total_price, 'items': my_res,})
 
 
 def cart_delete(request, pk):
