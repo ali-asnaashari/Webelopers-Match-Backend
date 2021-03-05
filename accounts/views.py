@@ -377,6 +377,6 @@ def cart(request, id='-1'):
 
 
 def cart_delete(request, pk):
-    my_cart = ShoppingCard.objects.get(pk=pk)
+    my_cart = ShoppingCard.objects.get(pk=int(pk))
     my_cart.delete()
     return redirect(reverse("accounts:cart", kwargs={'id': '-1'}))
